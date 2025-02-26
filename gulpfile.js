@@ -28,21 +28,21 @@ const path = {
         html:   distPath,
         js:     distPath + "assets/js/",
         css:    distPath + "assets/css/",
-        images: distPath + "assets/images/",
+        img: distPath + "assets/img/",
         fonts:  distPath + "assets/fonts/"
     },
     src: {
         html:   srcPath + "*.html",
         js:     srcPath + "assets/js/*.js",
         css:    srcPath + "assets/scss/*.scss",
-        images: srcPath + "assets/images/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}",
+        img: srcPath + "assets/img/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}",
         fonts:  srcPath + "assets/fonts/**/*.{eot,woff,woff2,ttf,svg}"
     },
     watch: {
         html:   srcPath + "**/*.html",
         js:     srcPath + "assets/js/**/*.js",
         css:    srcPath + "assets/scss/**/*.scss",
-        images: srcPath + "assets/images/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}",
+        img: srcPath + "assets/img/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}",
         fonts:  srcPath + "assets/fonts/**/*.{eot,woff,woff2,ttf,svg}"
     },
     clean: "./" + distPath
@@ -183,8 +183,8 @@ function jsWatch(cb) {
     cb();
 }
 
-function images(cb) {
-    return src(path.src.images)
+function img(cb) {
+    return src(path.src.img)
         .pipe(image({
             pngquant: true,
             optipng: false,
@@ -195,7 +195,7 @@ function images(cb) {
             svgo: true,
             concurrent: 10
         }))
-        .pipe(dest(path.build.images))
+        .pipe(dest(path.build.img))
         .pipe(browserSync.reload({stream: true}));
 
     cb();
@@ -219,11 +219,11 @@ function watchFiles() {
     gulp.watch([path.watch.html], html);
     gulp.watch([path.watch.css], cssWatch);
     gulp.watch([path.watch.js], jsWatch);
-    gulp.watch([path.watch.images], images);
+    gulp.watch([path.watch.img], img);
     gulp.watch([path.watch.fonts], fonts);
 }
 
-const build = gulp.series(clean, gulp.parallel(html, css, js, images, fonts));
+const build = gulp.series(clean, gulp.parallel(html, css, js, img, fonts));
 const watch = gulp.parallel(build, watchFiles, serve);
 
 
@@ -232,7 +232,7 @@ const watch = gulp.parallel(build, watchFiles, serve);
 exports.html = html;
 exports.css = css;
 exports.js = js;
-exports.images = images;
+exports.img = img;
 exports.fonts = fonts;
 exports.clean = clean;
 exports.build = build;
